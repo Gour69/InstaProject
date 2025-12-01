@@ -14,7 +14,7 @@ public class Main {
 		
 		try {
 			List<String> lines = Files.readAllLines(followersPath);
-			System.out.println("The file was read with success! Total lines read: "
+			System.out.println("Followers list was read with success! Total lines read: "
 					+ lines.size());
 			for(String line: lines) {
 				System.out.println(line);
@@ -28,7 +28,7 @@ public class Main {
 		
 		try {
 			List<String> lines2 = Files.readAllLines(followingPath);
-			System.out.println("The file was read with success! Total lines read: "
+			System.out.println("Following list was read with success! Total lines read: "
 					+ lines2.size());
 			for (String line: lines2) {
 				System.out.println(line);
