@@ -1,42 +1,52 @@
-import java.io.IOException;
+import java.io.*;
+import java.util.HashSet;
 import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.Path;
 import java.util.List;
+import java.util.Scanner;
+
 
 
 public class Main {
 
 	public static void main(String[] args) {
 		System.out.println("INSTAGRAM FOLLOWERS - UNFOLLOWERS");
-		System.out.println("Give me the followers list: ");
-		Path followersPath = Paths.get("followers.txt");
+//		System.out.println("Give me the followers list: ");
+//		Path followersPath = Paths.get("followers.txt");
 		
+		File followers = new File("followers.txt");
+		File following = new File("following.txt");
+		File unf = new File("unf.txt");
+		
+		HashSet<String> followerSet = new HashSet<>();
+		
+		
+		//Followers - Unfollowers List
+		//If I follow someone and they dont follow me back
+		//They appear in this list 
 		try {
-			List<String> lines = Files.readAllLines(followersPath);
-			System.out.println("Followers list was read with success! Total lines read: "
-					+ lines.size());
-			for(String line: lines) {
-				System.out.println(line);
+			Scanner followerScanner = new Scanner(followers);
+			while(followerScanner.hasNextLine()) {
+				followerSet.add(followerScanner.nextLine().trim());
 			}
+			followerScanner.close();
+			FileWriter unfWriter = new FileWriter(unf);
+			BufferedWriter writer = new BufferedWriter(unfWriter);
+			Scanner followingScanner = new Scanner(following);
+			
+			while(followingScanner.hasNextLine()) {
+				String acc = followingScanner.nextLine().trim();
+				if(!followerSet.contains(acc)) {
+					writer.write("@" + acc + System.lineSeparator());
+				}
+			}
+			followingScanner.close();
+			writer.close();
+			unfWriter.close();
+			
 		} catch (IOException e) {
-			System.err.println("Error reading the file");
+			e.printStackTrace();
 		}
 		
-		System.out.println("Give me the following list: ");
-		Path followingPath = Paths.get("following.txt");
-		
-		try {
-			List<String> lines2 = Files.readAllLines(followingPath);
-			System.out.println("Following list was read with success! Total lines read: "
-					+ lines2.size());
-			for (String line: lines2) {
-				System.out.println(line);
-			}
-		} catch (IOException e) {
-			System.err.println("Error reading the file");
-		}
-
-	}
+}
 
 }
